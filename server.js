@@ -116,7 +116,7 @@ app.post('/api/create-checkout-session', async (req, res) => {
       mode: 'payment',
       client_reference_id: decodedToken.uid,
       success_url: `${domain}/?payment=success`,
-      cancel_url: `${domain}/`,
+      cancel_url: `${domain}/?payment=cancel`,
     });
     res.json({ url: session.url });
   } catch (e) {

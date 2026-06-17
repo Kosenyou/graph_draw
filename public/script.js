@@ -54,11 +54,21 @@
   const chargeButton = document.getElementById("chargeButton");
 
   const urlParams = new URLSearchParams(window.location.search);
-  if (urlParams.get("payment") === "success") {
-    setTimeout(() => {
-      setMessage("決済が完了し、チケットがチャージされました！");
-      window.history.replaceState({}, document.title, "/");
-    }, 500);
+  const paymentStatus = urlParams.get("payment");
+  if (paymentStatus === "success" || paymentStatus === "cancel") {
+    const isSuccess = paymentStatus === "success";
+    const title = isSuccess ? "決済が完了しました" : "決済をキャンセルしました";
+    const color = isSuccess ? "#10b981" : "#f59e0b";
+    
+    document.body.innerHTML = `
+      <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;background:#0f172a;color:#fff;font-family:sans-serif;text-align:center;">
+        <h1 style="color:${color};margin-bottom:16px;">${title}</h1>
+        <p style="font-size:18px;margin-bottom:24px;">このタブを閉じて、元のグラフ作成画面に戻ってください。</p>
+        <button onclick="window.close()" style="padding:12px 24px;font-size:16px;background:#3b82f6;color:#fff;border:none;border-radius:8px;cursor:pointer;">タブを閉じる</button>
+      </div>
+    `;
+    setTimeout(() => window.close(), 1000);
+    return;
   }
   async function getToken() {
     return auth.currentUser ? await auth.currentUser.getIdToken() : null;
