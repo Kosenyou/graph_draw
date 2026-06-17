@@ -84,6 +84,10 @@
     }
   }
 
+  // 画面に戻ってきたときにチケット残高を自動更新する
+  window.addEventListener("focus", () => {
+    if (auth.currentUser) fetchUserStatus();
+  });
   if (chargeButton) {
     chargeButton.addEventListener("click", async () => {
       const token = await getToken();
@@ -97,7 +101,8 @@
         });
         const data = await response.json();
         if (data.url) {
-          window.location.href = data.url;
+          window.open(data.url, '_blank');
+          setMessage("決済画面を別タブで開きました。完了後、この画面に戻ると自動でチケットが反映されます。");
         } else {
           setMessage("エラー: " + (data.error || "決済画面に移動できませんでした"));
         }
