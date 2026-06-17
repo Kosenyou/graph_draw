@@ -26,4 +26,27 @@ CSVまたはExcelファイルを読み込み、折れ線グラフ・散布図・
 - 古い `.xls` 形式は未対応です。Excelで `.xlsx` として保存し直してください。
 - Y列は数値が必要です。
 - 散布図ではX列も数値が必要です。
+
+## システム構成（Technology Stack）
+
+このアプリは以下の技術を用いて構築されています。エンジニアがコードレビューや開発を引き継ぐ際の参考にしてください。
+
+* **フロントエンド (Frontend)**
+  * HTML5 / CSS3 (Vanilla)
+  * Vanilla JavaScript
+  * Chart.js (グラフ描画)
+  * SheetJS (Excelファイルのパース・出力)
+* **バックエンド (Backend)**
+  * Node.js / Express
+  * `server.js` にてAPIエンドポイントと静的ファイルの配信を担当
+* **インフラ・デプロイ (Infrastructure)**
+  * Render (Web Serviceとしてデプロイ)
+* **認証・データベース (Auth & DB)**
+  * Firebase Authentication (Googleログイン)
+  * Firestore (ユーザーのチケット残高、利用日時の管理をバックエンドから実行)
+* **決済システム (Payments)**
+  * Stripe Checkout (都度課金によるチケットチャージ)
+  * Stripe Webhook (`/api/webhook` で支払い完了を受け取りFirestoreを更新)
+* **AI機能 (AI API)**
+  * Google Gemini API (`/api/gemini` を経由してバックエンドから安全に呼び出し)
 # graph_draw
