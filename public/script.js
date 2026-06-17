@@ -15,7 +15,7 @@
   const auth = firebase.auth();
 
   const csvInput = document.getElementById("csvInput");
-  const fileSummary = document.getElementById("fileSummary");
+
   const excelOptions = document.getElementById("excelOptions");
   const sheetSelect = document.getElementById("sheetSelect");
   const tableSelect = document.getElementById("tableSelect");
@@ -365,7 +365,7 @@ Y軸: ${yLabel.value}
     enableControls(false);
     setSaveButtons(false);
     seriesContainer.innerHTML = "";
-    fileSummary.textContent = "CSVまたはExcelファイルを選択してください。";
+
   }
 
   function applyTable(parsedRaw, summaryText, sourceName) {
@@ -390,22 +390,7 @@ Y軸: ${yLabel.value}
     hasChart = false;
     setSaveButtons(false);
     
-    const loadedNames = dataStores.map(ds => ds.name).join(", ");
-    fileSummary.textContent = "読み込み済み: " + loadedNames;
     setMessage("");
-    
-    // デバッグ用のデータ抽出結果表示
-    const debugArea = document.getElementById("debugTableArea");
-    if (debugArea) {
-      let debugHtml = "";
-      dataStores.forEach((store) => {
-        debugHtml += `<strong style="color:#4db8ff;">[${store.name}]</strong><br>`;
-        debugHtml += `<span style="color:#a8b2bd;">見出し:</span> ${store.headers.join(", ")}<br>`;
-        debugHtml += `<span style="color:#a8b2bd;">データ:</span> ${store.rows.length}行 (1行目: ${store.rows[0] ? store.rows[0].join(", ") : "なし"})<br><br>`;
-      });
-      debugArea.innerHTML = debugHtml;
-      debugArea.style.display = "block";
-    }
 
     // Excelファイルで複数シートがある場合、すべての読み込みが終わってから最初のカードを作成するため、
     // ここでの自動生成は行いません（csvInputのイベントリスナー側で生成します）。
